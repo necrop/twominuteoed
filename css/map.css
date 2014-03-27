@@ -1,0 +1,74 @@
+
+path {
+	stroke: white;
+	stroke-width: 0.25px;
+	fill: #A5DBA5; /* #87CF87;*/ /* #5FBF5F;*/
+}
+
+#mapContainer {
+	margin: 10px;
+	position: relative;
+}
+
+.seaBackground {
+    stroke: #000000;
+    fill: #CEFFFF; /* #B8FFFF;*/ /* #99FFFF;*/
+}
+
+.dot {
+	stroke: #000000;
+}
+
+.increaseCircle {
+    stroke: #000000;
+    fill: #666666;
+    opacity: 0.5;
+}
+
+.progressBar {
+    stroke: #000000;
+}
+
+#tooltip, #controlPanel {
+	position: absolute;
+	text-align: center;
+	padding: 5px;
+	font-family: Arial;
+	font-size: 15px;
+	background: lightsteelblue;
+	border: 0px;
+	border-radius: 8px;
+}
+
+#controlPanel {
+	display: none;
+}
+
+#tooltip {
+    text-align: left;
+    padding-right: 20px;
+}
+
+#tooltip .lemma {
+	font-size: 35px;
+	padding-bottom: 0.3em;
+}
+
+#tooltipCloser {
+	position: absolute;
+	top: 0px;
+	right: -0px;
+}
+
+#yearlabel {
+    font-family: Arial;
+    fill: black;
+    padding: 0px;
+    margin: 0px;
+}
+
+#examples {
+	margin-left: 0.5em;
+	margin-top: 0.3em;
+}
+
