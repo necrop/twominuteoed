@@ -35,13 +35,15 @@ path {
 	padding: 5px;
 	font-family: Arial;
 	font-size: 15px;
-	background: lightsteelblue;
-	border: 0px;
+	color: black;
+	background-color: #F2F7FE; /*lightsteelblue;*/
+	border: 1px solid black;
 	border-radius: 8px;
 }
 
 #controlPanel {
 	display: none;
+	background-color: lightsteelblue;
 }
 
 #tooltip {

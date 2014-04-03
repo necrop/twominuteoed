@@ -29,6 +29,7 @@ var allwords,
     languages,
     examples,
     running_totals,
+    running_counts,
     progress_bar_data,
     progress_bars,
     endtotal,
@@ -37,7 +38,7 @@ var allwords,
     increase_circle,
     year_label;
 
-var user_status = $("#userStatus").attr("status");
+var user_status = 'public'; // 'public' or 'subscriber'
 var player = function () { current_year += 1; updateData(); };
 
 
@@ -53,6 +54,7 @@ if (canvas_width < 950) {
 } 
 
 var tooltip = d3.select("#tooltip");
+var tooltip_jq = $('#tooltip');
 // hide the tooltip until invoked
 tooltip.style("opacity", 0);
 
@@ -109,7 +111,8 @@ function loadData() {
                     examples = ex;
                     // load running totals
                     d3.json("data/running_totals.json", function (error, rt) {
-                        running_totals = rt;
+                        running_totals = rt.summedfrequencies;
+                        running_counts = rt.counts;
                         // load increase rates
                         d3.json("data/increase_rates.json", function (error, incr) {
                             increase_rates = incr;
@@ -199,6 +202,7 @@ function createCanvas() {
         .attr("class", "seaBackground");
 }
 
+
 function randomCoordinates(d) {
     // assign random coordinates to a data point
     var language = languages[d[4]];
@@ -210,6 +214,7 @@ function randomCoordinates(d) {
     // return the coordinates for this language at the current counter position
     return language.c[language.counter];
 }
+
 
 function initialState() {
     // Set up the initial state (this runs as soon as all the data has been loaded)
@@ -260,7 +265,6 @@ function initialState() {
         .attr("y", year_label_y)
         .style("font-size", year_label_size + "px")
         .text("");
-
 
     // Scale the text showing examples
     $("#examples").css("font-size", (canvas_height * .07) + "px");
@@ -356,9 +360,9 @@ function searchableLanguage(d) {
 function fillColour(lang_group) {
     if (lang_group === "g") { return "#0000FF"; }
     else if (lang_group === "r") { return "#FF0000"; }
-    else if (lang_group === "l") { return "#00FF00"; } // "#954FDB"; } //#6600CC"
+    else if (lang_group === "l") { return "#00FF00"; }
     else if (lang_group === "o") { return "#FFDE00"; }
-    else if (lang_group === "k") { return "#66CCFF"; } // "#3366CC"; }
+    else if (lang_group === "k") { return "#66CCFF"; }
     else if (lang_group === "e") { return "#FFFFFF"; }
     else { return "#E95D22"; }
 }
@@ -370,7 +374,7 @@ function compile_examples() {
         var ex = current_examples[i];
         links.push(link_to_oed_entry(ex, ex[1]));
     }
-    return links.join(', ');
+    return links.join(', ') + '&nbsp;'; // include &nbsp; so the space never collapses
 }
 
 
@@ -449,17 +453,16 @@ function progressLanguageLabel(i) {
 }
 
 function progressBarLabel(d) {
-    var div1
+    var text
     if (d.label === "Latin" || d.label === "Greek") {
-        div1 = "<div>Words derived from " + d.label + ".</div>";
+        text = "Words derived from " + d.label;
+    } else if (d.label === "English") {
+        text = "Compounds, etc., formed from other English words";
+    } else {
+        text = "Words derived from " + d.label + " languages";
     }
-    else if (d.label === "English") {
-        div1 = "<div>Compounds, etc., formed from other English words</div>";
-    }
-    else {
-        div1 = "<div>Words derived from " + d.label + " languages.</div>";
-    }
-    return div1 + "<div>" + d.percentage + "% of English in " + current_year + " (est.).</div>";
+    var div1 = "<div>" + text + ".</div>";
+    return div1 + "<div>" + d.percentage + "% of English in " + current_year + " (est.).</div><div>About " + d.count + " words.</div>";
 }
 
 function progressTotal(values) {
@@ -506,7 +509,8 @@ function progressStartPositions(bar_lengths) {
 
 function setupProgressBars() {
     endtotal = progressTotal(running_totals[String(endyear)]);
-    var percentages = progressPercentages(running_totals[String(current_year)])
+    var percentages = progressPercentages(running_totals[String(current_year)]);
+    var counts = running_counts[String(current_year)];
     var bar_lengths = progressBarLengths(running_totals[String(current_year)], endtotal);
     var start_positions = progressStartPositions(bar_lengths);
     progress_bar_data = [];
@@ -516,6 +520,7 @@ function setupProgressBars() {
             start_position: start_positions[i], 
             label: progressLanguageLabel(i),
             percentage: percentages[i],
+            count: counts[i],
             fill: fillColour(progressLanguageInitial(progressLanguageLabel(i)))
         });
     }
@@ -539,12 +544,14 @@ function setupProgressBars() {
 function updateProgressBars() {
     // Recalculate the underlying data
     var percentages = progressPercentages(running_totals[String(current_year)]);
+    var counts = running_counts[String(current_year)];
     var bar_lengths = progressBarLengths(running_totals[String(current_year)], endtotal);
     var start_positions = progressStartPositions(bar_lengths);
     for (var i = 0; i < percentages.length; i += 1) {
         progress_bar_data[i].bar_length = bar_lengths[i];
         progress_bar_data[i].start_position = start_positions[i];
         progress_bar_data[i].percentage = percentages[i];
+        progress_bar_data[i].count = counts[i];
     }
     // Update the progress bars with the changed data
     progress_bars.transition()
@@ -713,14 +720,26 @@ function repositionControlPanel() {
 //=================================================================
 
 function tooltipOn (html) {
+    // Hide the tooltip if it's already open somewhere
+    tooltip.style("opacity", 0);
     html = "<div id=\"tooltipCloser\"><a href=\"#\" onclick=\"tooltipOff(0); return false;\"><i class=\"icon-remove\"></i></a></div>" + html;
     tooltip
         .html(html)
-        .style("left", (d3.event.pageX) + "px")
-        .style("top", (d3.event.pageY) + "px");
+        .style("left", "0px")
+        //.style("left", (d3.event.pageX) + "px")
+        .style("top", (d3.event.pageY + 5) + "px");
+
+    var tooltip_width = tooltip_jq.outerWidth();
+    if (d3.event.pageX + tooltip_width > window.innerWidth) {
+        tooltip.style("left", (window.innerWidth - tooltip_width) + "px");
+    } else {
+        tooltip.style("left", (d3.event.pageX) + "px");        
+    }
+
     tooltip.transition()
         .duration(100)
         .style("opacity", 0.9);
+
 }
 
 function tooltipOff (delay_length) {

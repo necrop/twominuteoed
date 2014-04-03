@@ -5,6 +5,7 @@
 	<title>The OED in two minutes</title>
 	<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
 	<link href="css/map.css" rel="stylesheet" media="screen">
+	<link href="css/commentary.css" rel="stylesheet" media="screen">
 </head>
 
 <body>
@@ -26,7 +27,79 @@
 	</div>
 	<div id="examples"></div>
 	<div id="tooltip"></div>
-	<div id="userStatus" status="subscriber"/> <!-- 'subscriber' or 'public' -->
+
+
+	<div id="commentary">
+		<p>Modern English includes words from a wide variety of different sources around the world. Patterns of word-borrowing over time reflect the changing demography of its speakers; cultural and economic influences on Britain; the spread of English-speaking explorers, traders, and settlers; and encounters with other cultures.</p>
+
+		<p>Click the 'play' button to start the animation above. Each data point represents the first recorded use of a word in English, positioned according to the language from which the word was borrowed. The size of the data point indicates the frequency of the word: larger bubbles for higher-frequency words, smaller bubbles for lower-frequency words. Colour-coding is used to pick out some of the major language families from which English borrows: dark blue for Germanic, red for Romance, green for Latin, and pale blue for Greek. Yellow is used for words from other languages (mostly outside western Europe). The progress bar at the bottom uses the same colour-coding to track the growth of English.</p>
+
+		<p>The list of words shown beneath the map gives a sample of the data points. Click a word to open its entry in the OED.</p>
+
+		<h3>Dating</h3>
+
+		<p>The date shown for a given word is based on the date of first recorded use, as evidenced in the word's entry in the OED. The date of first recorded use may not always be quite the same as first actual use - see <a href="http://public.oed.com/the-oed-today/rewriting-the-oed/collecting-the-evidence/">here</a> for a discussion of OED's use of evidence - but should be close enough in most cases for this to give a good picture of trends in borrowing.</p>
+
+		<p>Note that the date of a word's appearance in the map above is not always exactly the same as the first date in the OED entry. Particularly in the early period (pre-1500), when precise dating can be difficult, first dates tend to be artificially clumped on round numbers (c.1350, c.1400, etc.). When timing the appearance of data points on the map above, a small amount of <a href="http://en.wikipedia.org/wiki/Dither">dither</a> is applied to such dates in order to spread them more evenly.</p>
+
+		<h4>Why start at 1150?</h4>
+
+		<p>The history of English goes back well before 1150, but it becomes increasingly difficult to determine when particular words first appear in English, or to trace where they come from. A word like <em>mighty</em>, for example, occurs in the earliest written records of English, and has cognates in numerous Germanic languages, so it would not be meaningful to pin down its appearance in English to any particular time or source.</p>
+
+		<p>For more on this period, see <a href="http://public.oed.com/aspects-of-english/english-in-time/old-english-an-overview">Old English—an overview</a> and <a href="http://public.oed.com/aspects-of-english/english-in-time/old-english-in-the-oed/">Old English in the OED</a>.</p>
+
+		<h3>Geography</h3>
+
+		<p>Words borrowed from a given language are positioned in the geographical area associated with that language. For some languages, e.g. Arabic, this area may be quite extensive; the exact position of the data point within that area is essentially random, and should not be taken to indicate a specific site.</p>
+
+		<p>Of course, the fact that a language is associated with a particular area does not mean that the borrowing of a word into English actually occurred in that area. For example, the data points for words acquired from Dutch appear in the area of the modern Netherlands, even though a number of these words were acquired through encounters between British and Dutch traders in the Far East in the 17th and 18th centuries.</p>
+
+		<h3>Size of data points</h3>
+
+		<p>The size of a bubble on the map is a rough indication of the frequency of the word in modern English: larger bubbles for higher-frequency words, smaller bubbles for lower-frequency words.</p>
+
+		<p>Note that this is a logarithmic relationship: the radius of the bubble is proportional to the log of the word's frequency. This means that a small increase in radius represents a very large increase in frequency. Hover over the bubble to see the actual frequency.</p>
+
+		<h3>Number of words and word frequency</h3>
+
+		<p>The progress bar at the bottom of the map indicates how much of the vocabulary of modern English was established by a given date, and how that breaks down between major language families.</p>
+
+		<p>When considering the influence on English of a particular language or region of the world, we need to take into account not only the number of words borrowed, but also their frequency of those words: a small number of common words may have had more influence on English than a larger number of very rare words.</p>
+
+		<p>For example, in the early 19th century there are many borrowings from Maori - words like <em>hongi</em>, <em>kakapo</em>, and <em>Pakeha</em>. But most of these are very low-frequency; <em>hongi</em> occurs only about once every 100 million words in modern English. In spite of the large number of words, then, it may be argued that the total influence of Maori on English (in terms of word borrowing, at least) is very small.</p>
+
+		<p>To reflect this, the progress bar at the bottom of the map represents the summed <em>frequencies</em> of words borrowed from different areas, not a simple count of word borrowings. This makes clear that English has remained overwhelmingly dominated by the major language families of western Europe - Germanic, Romance, and Latin. The small yellow component at the end of the progress bar represents the summed frequencies of all borrowings from languages outside Europe: at 2010, this includes about 5200 words recorded in the OED, but accounts for only about 0.2% of all English usage. By contrast, the 7700 words derived from Germanic languages account for 49% of all English usage. On average, a word derived from a Germanic language is likely to be about 200 times as common in English as a word derived from a non-European language.</p>
+
+		<p>It's also striking to see how much of modern English was already established by 1150. Although the language at this stage contains relatively few words that have survived into modern English, these include most of the core words that we use all the time (<em>the, run, head</em>, etc.). So the summed frequency of these words is very high, which is why at 1150 the progress bar is already over half-way to its modern total.</p>
+
+		<h3>Rate of growth</h3>
+
+		<p>The grey circle in the bottom left indicates the rate of growth of the language at each point in time. Again, this is measured in terms of the summed frequencies of words being acquired. The grey circle is larger when large numbers of words are being added to the language - or a smaller number of relatively high-frequency words - and smaller when fewer or lower-frequency words are being added.</p>
+
+		<h3>Direct and indirect borrowings</h3>
+
+		<p>The attribution of a borrowed word to a given language of origin tends to reflect the direct source of the borrowing, i.e. the language from which the word was adopted or adapted into English (as indicated in the OED's etymology). This may not always reflect the word's earlier origin, and can sometimes give unexpected results.</p>
+
+		<p>For example, the OED's etymology for <em>mongoose</em> indicates that the word's route into English was via the Portuguese <em>mangus</em>. (The first recorded use of <em>mongoose</em> in English is in a 1673 letter by Gerald Aungier, who served as governor of Bombay a few years after its transfer from Portuguese control.) Of course, <em>mangus</em> was not originally a Portuguese word; Portuguese had in turn borrowed it from the Marathi language of western India. Nevertheless, because the direct source is Portuguese, <em>mongoose</em> is attributed to Portuguese in the map above.</p>
+
+		<p>As this example illustrates, direct borrowing often tells only a small part of a word's history. Reading the OED's etymology will give a more complete account.</p>
+
+		<h3>Coverage</h3>
+
+		<p>The map does not display every entry in the OED. Omitted entries fall into several categories:</p>
+
+		<ol>
+			<li>By far the largest category are entries for words formed in English (not borrowed from other languages). These include:
+				<ul>
+					<li>derivatives - words formed by adding prefixes and suffixes to existing English words, e.g. <em>regimental</em> from <em>regiment</em>, <em>literalness</em> from <em>literal</em>, <em>decommission</em> from <em>commission</em></li>
+					<li>compounds - words formed by combining existing English words, e.g. <em>quarterback, moonlight, penfriend</em>.</li>
+				</ul>
+				However, these <em>are</em> counted towards the overall growth of English in the progress bar at the bottom of the map: words formed in English constitute the white component of the bar.</li>
+			<li>Various other types of word have origins which cannot be represented in a map of this kind. These include words of uncertain origin (<em>nifty</em>, <em>reggae</em>), eponyms and toponyms (<em>macadam</em>, <em>Darwinian</em>), words formed by onomatopoeia (<em>moo</em>, <em>pow</em>), and invented words (<em>jabberwock</em>, <em>quark</em>).</li>
+			<li>Where OED has separate entries for different parts of speech of the same root word (e.g. <em>muscle, n.</em> and <em>muscle, v.</em>), these are registered as a single data point (using the date of the earlier entry, and combining the frequencies of both).</li>
+		</ol>
+	</div>
+
 
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 	<script type="text/javascript" src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
