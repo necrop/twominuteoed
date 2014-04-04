@@ -1,9 +1,11 @@
-/*global $, d3*/
+/* global $, d3, languagegroups, languagegroup_map */
 "use strict";
 
 //=================================================================
 // Global variables
 //=================================================================
+
+var user_status = 'public'; // 'public' or 'subscriber'
 
 var startyear = 1150,
     endyear = 2010,
@@ -38,8 +40,31 @@ var allwords,
     increase_circle,
     year_label;
 
-var user_status = 'public'; // 'public' or 'subscriber'
 var player = function () { current_year += 1; updateData(); };
+
+
+
+//=================================================================
+// Colour-coding for major language groups
+//=================================================================
+
+var languagegroups = [
+	{code: 'g', label: 'Germanic', hex: '#0000FF', include_in_key: true, text: 'Words derived from Germanic languages', textcolour: 'white'},
+	{code: 'r', label: 'Romance', hex: '#FF0000', include_in_key: true, text: 'Words derived from Romance languages', textcolour: 'white'},
+	{code: 'l', label: 'Latin', hex: '#00FF00', include_in_key: true, text: 'Words derived from Latin', textcolour: 'black'},
+	{code: 'k', label: 'Greek', hex: '#66CCFF', include_in_key: true, text: 'Words derived from Greek', textcolour: 'black'},
+	{code: 'o', label: 'other', hex: '#FFDE00', include_in_key: true, text: 'Words derived from other languages', textcolour: 'black'},
+	{code: 'e', label: 'English', hex: '#FFFFFF', include_in_key: false, text: 'Compounds and derivativesformed from existing English words', textcolour: 'black'},
+	{code: 'fallback', label: 'unknown', hex: '#E95D22', include_in_key: false, text: 'unknown', textcolour: 'black'},
+];
+
+var languagegroup_map = {};
+for (var i = 0; i < languagegroups.length; i += 1) {
+	var group = languagegroups[i];
+	languagegroup_map[group.code] = group;
+	languagegroup_map[group.label] = group;
+}
+
 
 
 //=================================================================
@@ -272,6 +297,9 @@ function initialState() {
     // Update the map display
     updateData();
 
+    // Generate the colour-coding key
+    generateKey();
+
     // Make the control panel visible (and positioned in the centre)
     control_panel
         .style("display", "block")
@@ -294,11 +322,33 @@ function initialState() {
 
 
 //=================================================================
+// Colour-coding key
+//=================================================================
+
+function generateKey() {
+	var container = $('#keyContainer');
+	var keystring = '<span>Key:</span>';
+	for (var i = 0; i < languagegroups.length; i += 1) {
+		var group = languagegroups[i];
+		if (group.include_in_key) {
+			keystring += '<span style="background-color: ' + group.hex + '; color: ' + group.textcolour + '" title="' + group.text + '">' + group.label + '</span>'; 
+		}
+	}
+	container.html(keystring);
+}
+
+
+
+//=================================================================
 // Update functions
 //=================================================================
 
-function link_to_oed_entry(d, text) {
-    return '<a href="http://www.oed.com/view/Entry/' + d[0] + '" target="oed">' + text + '</a>';
+function link_to_oed_entry(d, text, include_title) {
+	var link = '<a href="http://www.oed.com/view/Entry/' + d[0] + '" target="oed"';
+	if (include_title) {
+		link += ' title="View entry in OED Online"';
+	}
+    return link + '>' + text + '</a>';
 }
 
 function link_to_oed_search(d, text) {
@@ -310,20 +360,21 @@ function link_to_ngram_viewer(d, text) {
 }
 
 function dotLabel(d) {
-    var html;
+    var html, fvalue;
     if (user_status === 'subscriber') {
-    	html = "<div class=\"lemma\">" + link_to_oed_entry(d, d[1]) + "</div>";
+    	html = "<div class=\"lemma\">" + link_to_oed_entry(d, d[1], false) + "</div>";
     }
     else {
         html = "<div class=\"lemma\">" + d[1] + "</div>";	
     }
     html += "<div>" + languageFromIndex(d) + "</div>";
     if (d[3] <= 0.0001) {
-        html += "<div>Current frequency: &lt; 0.0001 per million words</div>";  
+        fvalue = "&lt; 0.0001";  
     }
     else {
-        html += "<div>Current frequency: approx. " + d[3] + " per million words</div>";  
+        fvalue = "approx. " + d[3]; 
     }
+    html += "<div>Frequency in modern English: " + fvalue + " per million words</div>";
     if (user_status === 'subscriber') {
     	html += "<div>View in: " + link_to_oed_entry(d, "OED Online") + " | " + link_to_ngram_viewer(d, "Ngram Viewer") + "</div>";
     	html += "<div>" + link_to_oed_search(d, "Find more") + "</a> like this in OED Online</div>";
@@ -358,13 +409,11 @@ function searchableLanguage(d) {
 }
 
 function fillColour(lang_group) {
-    if (lang_group === "g") { return "#0000FF"; }
-    else if (lang_group === "r") { return "#FF0000"; }
-    else if (lang_group === "l") { return "#00FF00"; }
-    else if (lang_group === "o") { return "#FFDE00"; }
-    else if (lang_group === "k") { return "#66CCFF"; }
-    else if (lang_group === "e") { return "#FFFFFF"; }
-    else { return "#E95D22"; }
+	if (languagegroup_map[lang_group]) {
+		return languagegroup_map[lang_group].hex;
+	} else {
+		return languagegroup_map['fallback'].hex; 
+	}
 }
 
 function compile_examples() {
@@ -372,7 +421,7 @@ function compile_examples() {
 	var links = [];
     for (var i = 0; i < current_examples.length; i += 1) {
         var ex = current_examples[i];
-        links.push(link_to_oed_entry(ex, ex[1]));
+        links.push(link_to_oed_entry(ex, ex[1], true));
     }
     return links.join(', ') + '&nbsp;'; // include &nbsp; so the space never collapses
 }
@@ -432,16 +481,6 @@ function updateData() {
 // Progress bar functions
 //=================================================================
 
-function progressLanguageInitial(language) {
-    if (language === "Greek") {
-        return "k";
-    }
-    else {
-        var initial = language.split("")[0];
-        return initial.toLowerCase()
-    }
-}
-
 function progressLanguageLabel(i) {
     if (i === 0) { return "Germanic"; }
     else if (i === 1) { return "English"; }
@@ -453,15 +492,7 @@ function progressLanguageLabel(i) {
 }
 
 function progressBarLabel(d) {
-    var text
-    if (d.label === "Latin" || d.label === "Greek") {
-        text = "Words derived from " + d.label;
-    } else if (d.label === "English") {
-        text = "Compounds, etc., formed from other English words";
-    } else {
-        text = "Words derived from " + d.label + " languages";
-    }
-    var div1 = "<div>" + text + ".</div>";
+    var div1 = "<div>" + languagegroup_map[d.label].text + ".</div>";
     return div1 + "<div>" + d.percentage + "% of English in " + current_year + " (est.).</div><div>About " + d.count + " words.</div>";
 }
 
@@ -521,7 +552,7 @@ function setupProgressBars() {
             label: progressLanguageLabel(i),
             percentage: percentages[i],
             count: counts[i],
-            fill: fillColour(progressLanguageInitial(progressLanguageLabel(i)))
+            fill: fillColour(progressLanguageLabel(i))
         });
     }
     progress_bars = canvas.selectAll(".progressBar").data(progress_bar_data);
@@ -694,6 +725,7 @@ function returnToStart() {
     current_year = startyear;
     updateData();
     repositionControlPanel();
+	$('#controlPanelCommentary').show();
 }
 
 function dockControlPanel() {
@@ -705,6 +737,7 @@ function dockControlPanel() {
 }
 
 function repositionControlPanel() {
+    $('#controlPanelCommentary').hide();
     if (control_panel_centered) {
         clearInterval(button_animator);
         $("#flashingButton button").removeClass("btn-large").addClass("btn-small").css("opacity", 1);

@@ -29,14 +29,15 @@ path {
     stroke: #000000;
 }
 
+
+
 #tooltip, #controlPanel {
 	position: absolute;
-	text-align: center;
 	padding: 5px;
 	font-family: Arial;
 	font-size: 15px;
 	color: black;
-	background-color: #F2F7FE; /*lightsteelblue;*/
+	background-color: #F2F7FE;
 	border: 1px solid black;
 	border-radius: 8px;
 }
@@ -45,6 +46,12 @@ path {
 	display: none;
 	background-color: lightsteelblue;
 }
+
+#controlPanelControls {
+	text-align: center;
+}
+
+
 
 #tooltip {
     text-align: left;
@@ -74,3 +81,11 @@ path {
 	margin-top: 0.3em;
 }
 
+
+#keyContainer span {
+	padding-left: 1em;
+	padding-right: 1em;
+	padding-top: 0.2em;
+	padding-bottom: 0.2em;
+	border: 1px solid black;
+}

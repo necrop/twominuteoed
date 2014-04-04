@@ -10,41 +10,59 @@
 
 <body>
 	<h1>The OED in two minutes</h1>
-	<div id="mapContainer">
-		<div id="controlPanel">
-			<button class="btn btn-small" onclick="playSlow()" title="play (slow speed)"><i class="icon-play"></i></button>
-			<span id="flashingButton"><button class="btn btn-large" onclick="playFast()" title="play (full speed)"><i class="icon-forward"></i></button></span>
-			<button class="btn btn-small" onclick="playStop()" title="pause"><i class="icon-pause"></i></button>&nbsp;&nbsp;
-			<button class="btn btn-small" onclick="yearReverse()" title="back one year"><i class="icon-step-backward"></i></button>
-			<button class="btn btn-small" onclick="yearAdvance()" title="forward one year"><i class="icon-step-forward"></i></button>&nbsp;&nbsp;
-			<button class="btn btn-small" onclick="jumpBackward()" title="jump back 50 years"><i class="icon-fast-backward"></i></button>
-			<button class="btn btn-small" onclick="jumpForward()" title="jump forwards 50 years"><i class="icon-fast-forward"></i></button>
-			<button class="btn btn-small" onclick="returnToStart()" title="return to start"><i class="icon-repeat"></i></button>
-			&nbsp;&nbsp;
-			<a href="#" onclick="dockControlPanel(); return false;" title="dock controls in the top-left corner"><i class="icon-home icon-white"></i>
-			<a href="#" onclick="return false;" title="drag to reposition controls" id="controlPanelHandle"><i class="icon-move icon-white"></i></a>
+
+
+	<div id="animationContainer">
+		<div id="keyContainer"></div>
+		<div id="mapContainer">
+			<div id="controlPanel">
+				<div class="controlPanelControls">
+					<button class="btn btn-small" onclick="playSlow()" title="play (slow speed)"><i class="icon-play"></i></button>
+					<span id="flashingButton"><button class="btn btn-large" onclick="playFast()" title="play (full speed)"><i class="icon-forward"></i></button></span>
+					<button class="btn btn-small" onclick="playStop()" title="pause"><i class="icon-pause"></i></button>&nbsp;&nbsp;
+					<button class="btn btn-small" onclick="yearReverse()" title="back one year"><i class="icon-step-backward"></i></button>
+					<button class="btn btn-small" onclick="yearAdvance()" title="forward one year"><i class="icon-step-forward"></i></button>&nbsp;&nbsp;
+					<button class="btn btn-small" onclick="jumpBackward()" title="jump back 50 years"><i class="icon-fast-backward"></i></button>
+					<button class="btn btn-small" onclick="jumpForward()" title="jump forwards 50 years"><i class="icon-fast-forward"></i></button>
+					<button class="btn btn-small" onclick="returnToStart()" title="return to start"><i class="icon-repeat"></i></button>
+					&nbsp;&nbsp;
+					<a href="#" onclick="dockControlPanel(); return false;" title="dock controls in the top-left corner"><i class="icon-home icon-white"></i></a>
+					<a href="#" onclick="return false;" title="drag to reposition controls" id="controlPanelHandle"><i class="icon-move icon-white"></i></a>
+				</div>
+				<div id="controlPanelCommentary">
+					<p></p>
+					<p>
+					Click <i class="icon-forward"></i> to start the animation. Each data point represents<br/>
+					the first recorded use of a word in English, positioned<br/>
+					according to the language from which the word was derived.<br/>
+					Hover over data points for more information.
+					</p>
+					<p>
+					The list of words shown beneath the map gives a sample of<br/>
+					the data points; click a word to open its entry in the OED.
+					</p>
+				</div>
+			</div>
 		</div>
+		<div id="examples"></div>
+		<div id="tooltip"></div>
 	</div>
-	<div id="examples"></div>
-	<div id="tooltip"></div>
 
 
 	<div id="commentary">
 		<p>Modern English includes words from a wide variety of different sources around the world. Patterns of word-borrowing over time reflect the changing demography of its speakers; cultural and economic influences on Britain; the spread of English-speaking explorers, traders, and settlers; and encounters with other cultures.</p>
 
-		<p>Click the 'play' button to start the animation above. Each data point represents the first recorded use of a word in English, positioned according to the language from which the word was borrowed. The size of the data point indicates the frequency of the word: larger bubbles for higher-frequency words, smaller bubbles for lower-frequency words. Colour-coding is used to pick out some of the major language families from which English borrows: dark blue for Germanic, red for Romance, green for Latin, and pale blue for Greek. Yellow is used for words from other languages (mostly outside western Europe). The progress bar at the bottom uses the same colour-coding to track the growth of English.</p>
-
-		<p>The list of words shown beneath the map gives a sample of the data points. Click a word to open its entry in the OED.</p>
+		<p>Each data point shown here represents the first recorded use of a word in English, positioned according to the language from which the word was borrowed. The size of the data point indicates the frequency of the word: larger bubbles for higher-frequency words, smaller bubbles for lower-frequency words. The progress bar at the bottom tracks the growth of English, subdivided into the major language groups from which words are derived.</p>
 
 		<h3>Dating</h3>
 
 		<p>The date shown for a given word is based on the date of first recorded use, as evidenced in the word's entry in the OED. The date of first recorded use may not always be quite the same as first actual use - see <a href="http://public.oed.com/the-oed-today/rewriting-the-oed/collecting-the-evidence/">here</a> for a discussion of OED's use of evidence - but should be close enough in most cases for this to give a good picture of trends in borrowing.</p>
 
-		<p>Note that the date of a word's appearance in the map above is not always exactly the same as the first date in the OED entry. Particularly in the early period (pre-1500), when precise dating can be difficult, first dates tend to be artificially clumped on round numbers (c.1350, c.1400, etc.). When timing the appearance of data points on the map above, a small amount of <a href="http://en.wikipedia.org/wiki/Dither">dither</a> is applied to such dates in order to spread them more evenly.</p>
+		<p>Note that the date of a word's appearance in the map above may be slightly different from the first date given in the OED entry. Particularly in the early period (pre-1500), when precise dating can be difficult, first dates tend to be artificially clumped on round numbers (c.1350, c.1400, etc.). When timing the appearance of data points on the map above, a small amount of <a href="http://en.wikipedia.org/wiki/Dither">dither</a> is applied to such dates in order to spread them more evenly.</p>
 
 		<h4>Why start at 1150?</h4>
 
-		<p>The history of English goes back well before 1150, but it becomes increasingly difficult to determine when particular words first appear in English, or to trace where they come from. A word like <em>mighty</em>, for example, occurs in the earliest written records of English, and has cognates in numerous Germanic languages, so it would not be meaningful to pin down its appearance in English to any particular time or source.</p>
+		<p>The history of English goes back well before 1150, but the date of first appearance of words in written texts becomes a much less reliable indication of when they actually entered the English language. A word like <em>mighty</em>, for example, occurs in the earliest written records of English, and has cognates in numerous Germanic languages; it almost certainly formed part of the language that the earliest Germanic settlers brought with them to the British Isles. In a case like this, the date of first attestation in a written text tells us more about when English starts to be documented in written sources than it does about when this word first entered the language.</p>
 
 		<p>For more on this period, see <a href="http://public.oed.com/aspects-of-english/english-in-time/old-english-an-overview">Old English—an overview</a> and <a href="http://public.oed.com/aspects-of-english/english-in-time/old-english-in-the-oed/">Old English in the OED</a>.</p>
 
@@ -52,7 +70,7 @@
 
 		<p>Words borrowed from a given language are positioned in the geographical area associated with that language. For some languages, e.g. Arabic, this area may be quite extensive; the exact position of the data point within that area is essentially random, and should not be taken to indicate a specific site.</p>
 
-		<p>Of course, the fact that a language is associated with a particular area does not mean that the borrowing of a word into English actually occurred in that area. For example, the data points for words acquired from Dutch appear in the area of the modern Netherlands, even though a number of these words were acquired through encounters between British and Dutch traders in the Far East in the 17th and 18th centuries.</p>
+		<p>Of course, the fact that a language is associated with a particular area does not mean that the borrowing of a word into English actually occurred in that area. For example, data points for words acquired from Dutch all appear in the area of the modern Netherlands, even though a number of these words were acquired through encounters between British and Dutch traders in the Far East in the 17th and 18th centuries.</p>
 
 		<h3>Size of data points</h3>
 
@@ -64,17 +82,23 @@
 
 		<p>The progress bar at the bottom of the map indicates how much of the vocabulary of modern English was established by a given date, and how that breaks down between major language families.</p>
 
-		<p>When considering the influence on English of a particular language or region of the world, we need to take into account not only the number of words borrowed, but also their frequency of those words: a small number of common words may have had more influence on English than a larger number of very rare words.</p>
+		<p>When considering the influence on English of a particular language or region of the world, we need to take into account not only the number of words borrowed, but also the frequency of those words: a small number of common words may have had more influence on English than a larger number of very rare words.</p>
 
 		<p>For example, in the early 19th century there are many borrowings from Maori - words like <em>hongi</em>, <em>kakapo</em>, and <em>Pakeha</em>. But most of these are very low-frequency; <em>hongi</em> occurs only about once every 100 million words in modern English. In spite of the large number of words, then, it may be argued that the total influence of Maori on English (in terms of word borrowing, at least) is very small.</p>
 
-		<p>To reflect this, the progress bar at the bottom of the map represents the summed <em>frequencies</em> of words borrowed from different areas, not a simple count of word borrowings. This makes clear that English has remained overwhelmingly dominated by the major language families of western Europe - Germanic, Romance, and Latin. The small yellow component at the end of the progress bar represents the summed frequencies of all borrowings from languages outside Europe: at 2010, this includes about 5200 words recorded in the OED, but accounts for only about 0.2% of all English usage. By contrast, the 7700 words derived from Germanic languages account for 49% of all English usage. On average, a word derived from a Germanic language is likely to be about 200 times as common in English as a word derived from a non-European language.</p>
+		<p>To reflect this, the progress bar at the bottom of the map represents the summed <em>frequencies</em> (in modern English) of words borrowed from different areas, not a simple count of word borrowings. This makes clear that English has remained overwhelmingly dominated by the major language families of western Europe - Germanic, Romance, and Latin. The small yellow component at the end of the progress bar represents the summed frequencies of all borrowings from languages outside Europe: at 2010, this includes about 5200 words recorded in the OED, but accounts for only about 0.2% of all English usage. By contrast, the 7700 words derived from Germanic languages account for 49% of all English usage. On average, a word derived from a Germanic language is likely to be about 200 times as common in English as a word derived from a non-European language.</p>
 
-		<p>It's also striking to see how much of modern English was already established by 1150. Although the language at this stage contains relatively few words that have survived into modern English, these include most of the core words that we use all the time (<em>the, run, head</em>, etc.). So the summed frequency of these words is very high, which is why at 1150 the progress bar is already over half-way to its modern total.</p>
+		<p>It's also striking to see how much of modern English was already established by 1150. Although the language at this stage contains relatively few words that have survived into modern English, these include most of the core words that we use all the time (<em>the, run, head</em>, etc.). So the summed frequencies of these words is very high, which is why at 1150 the progress bar is already over half-way to its modern total.</p>
+
+		<h4>Where does the frequency data come from?</h4>
+
+		<p>The frequency data used here is derived from the <a href="https://books.google.com/ngrams/info">Google Ngrams</a> data set. Specifically, frequency 'in modern English' is based on average frequency between 1970 and 2008. For a given word, this is calculated by adding together the average frequencies of all the surface forms for that word; these include inflections (e.g. <em>mend + mends + mended + mending</em> for the word <em>mend</em>) and alternative spellings (e.g. <em>theatre + theatres + theater + thaeters</em>).</p>
+
+		<p>There are a number of difficulties in mapping n-grams to OED entries. The central difficulty is that of disambiguating homographs - for example, determining the frequency of <em>pen</em> the enclosure rather than <em>pen</em> the writing implement or <em>pen</em> the female swan. We've attempted to solve this problem using a number of heuristics, and by cross-checking with secondary data sources; but the results often involve approximation. Frequencies given for individual words should therefore be treated with caution. However, this does not significantly affect aggregated values (overall rates of growth, etc.).</p>
 
 		<h3>Rate of growth</h3>
 
-		<p>The grey circle in the bottom left indicates the rate of growth of the language at each point in time. Again, this is measured in terms of the summed frequencies of words being acquired. The grey circle is larger when large numbers of words are being added to the language - or a smaller number of relatively high-frequency words - and smaller when fewer or lower-frequency words are being added.</p>
+		<p>The grey circle in the bottom left indicates the rate of growth of the language at each point in time. Again, this is measured in terms of the summed frequencies of words being acquired. The circle is larger when large numbers of words are being added to the language - or a smaller number of relatively high-frequency words - and smaller when fewer or lower-frequency words are being added.</p>
 
 		<h3>Direct and indirect borrowings</h3>
 
